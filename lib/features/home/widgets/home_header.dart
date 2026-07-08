@@ -27,13 +27,8 @@ class HomeHeader extends StatelessWidget {
                 child: isDesktop
                     ? Row(
                         children: [
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: SvgPicture.asset(
-                              'assets/logos/bikcraft.svg',
-                            ),
-                          ),
-                          Spacer(),
+                          const _HeaderLogo(),
+                          const Spacer(),
                           _HeaderMenu(isDesktop: isDesktop),
                         ],
                       )
@@ -43,14 +38,9 @@ class HomeHeader extends StatelessWidget {
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: SvgPicture.asset(
-                                  'assets/logos/bikcraft.svg',
-                                ),
-                              ),
+                              child: _HeaderLogo(),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             _HeaderMenu(isDesktop: isDesktop),
                           ],
                         ),
@@ -64,6 +54,18 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
+class _HeaderLogo extends StatelessWidget {
+  const _HeaderLogo();
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: SvgPicture.asset('assets/logos/bikcraft.svg'),
+    );
+  }
+}
+
 class _HeaderMenu extends StatelessWidget {
   const _HeaderMenu({required this.isDesktop});
 
@@ -71,7 +73,7 @@ class _HeaderMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const menuItems = ['Bicicletas', 'Seguros', 'Contrato'];
+    const menuItems = ['Bicicletas', 'Seguros', 'Contato'];
 
     return Row(
       spacing: 10,
@@ -98,7 +100,7 @@ class _HeaderMenuItem extends StatelessWidget {
             onPressed: () {},
             child: Text(
               itemName,
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           )
         : FilledButton(
@@ -111,7 +113,7 @@ class _HeaderMenuItem extends StatelessWidget {
             onPressed: () {},
             child: Text(
               itemName,
-              style: TextStyle(fontSize: 14, color: Colors.white),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
           );
   }
