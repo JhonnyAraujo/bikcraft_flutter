@@ -6,52 +6,113 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      height: 96,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 1200),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: SvgPicture.asset('assets/logos/bikcraft.svg'),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const desktopBreakpoint = 550;
+        const maxContentWidth = 1200.0;
+        const horizontalPadding = 20.0;
+
+        final bool isDesktop = constraints.maxWidth > desktopBreakpoint;
+
+        return Container(
+          color: Colors.black,
+          height: isDesktop ? 96 : 126,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxContentWidth),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
                 ),
-                Spacer(),
-                Row(
-                  spacing: 10,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Bicicletas',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                child: isDesktop
+                    ? Row(
+                        children: [
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: SvgPicture.asset(
+                              'assets/logos/bikcraft.svg',
+                            ),
+                          ),
+                          Spacer(),
+                          _HeaderMenu(isDesktop: isDesktop),
+                        ],
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: SvgPicture.asset(
+                                  'assets/logos/bikcraft.svg',
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            _HeaderMenu(isDesktop: isDesktop),
+                          ],
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Seguros',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Contato',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
+  }
+}
+
+class _HeaderMenu extends StatelessWidget {
+  const _HeaderMenu({required this.isDesktop});
+
+  final bool isDesktop;
+
+  @override
+  Widget build(BuildContext context) {
+    const menuItems = ['Bicicletas', 'Seguros', 'Contrato'];
+
+    return Row(
+      spacing: 10,
+      children: menuItems
+          .map(
+            (itemName) =>
+                _HeaderMenuItem(isDesktop: isDesktop, itemName: itemName),
+          )
+          .toList(),
+    );
+  }
+}
+
+class _HeaderMenuItem extends StatelessWidget {
+  const _HeaderMenuItem({required this.isDesktop, required this.itemName});
+
+  final bool isDesktop;
+  final String itemName;
+
+  @override
+  Widget build(BuildContext context) {
+    return isDesktop
+        ? TextButton(
+            onPressed: () {},
+            child: Text(
+              itemName,
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+          )
+        : FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Color(0xFF111111),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            onPressed: () {},
+            child: Text(
+              itemName,
+              style: TextStyle(fontSize: 14, color: Colors.white),
+            ),
+          );
   }
 }
