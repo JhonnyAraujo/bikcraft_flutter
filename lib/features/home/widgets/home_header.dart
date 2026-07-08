@@ -6,12 +6,12 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const desktopBreakpoint = 550;
+    const maxContentWidth = 1200.0;
+    const horizontalPadding = 20.0;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        const desktopBreakpoint = 550;
-        const maxContentWidth = 1200.0;
-        const horizontalPadding = 20.0;
-
         final bool isDesktop = constraints.maxWidth > desktopBreakpoint;
 
         return Container(
